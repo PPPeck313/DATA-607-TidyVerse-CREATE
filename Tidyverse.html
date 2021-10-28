@@ -181,19 +181,7 @@ library(googlesheets4)</code></pre>
 <h1>Read tabular data with readr</h1>
 <div id="most-pre-configured-parsing-methods-can-be-re-written-using-read_delimeter-without-anything-being-lost" class="section level5">
 <h5>Most pre-configured parsing methods can be re-written using read_delimeter without anything being lost</h5>
-<pre class="r"><code>readDirectory &lt;- &quot;data/read/&quot;
-
-colNames &lt;- c(
-  &quot;phrase&quot;,
-  &quot;category&quot;,
-  &quot;d_speeches&quot;,
-  &quot;r_speeches&quot;,
-  &quot;total&quot;,
-  &quot;percent_of_d_speeches&quot;,
-  &quot;percent_of_r_speeches&quot;,
-  &quot;chi2&quot;,
-  &quot;pval&quot;
-)</code></pre>
+<pre class="r"><code>readDirectory &lt;- &quot;data/read/&quot;</code></pre>
 </div>
 <div id="methods-values-separated-by-anything" class="section level2">
 <h2>Methods Values separated by anything</h2>
@@ -348,7 +336,19 @@ tsv</code></pre>
 </div>
 <div id="fwf_positions-read-between-indexes-so-it-can-be-discontinuous" class="section level5">
 <h5>fwf_positions() read between indexes, so it can be discontinuous</h5>
-<pre class="r"><code>fixedWidthFile &lt;- &quot;words_fwf.txt&quot;
+<pre class="r"><code>colNames &lt;- c(
+  &quot;phrase&quot;,
+  &quot;category&quot;,
+  &quot;d_speeches&quot;,
+  &quot;r_speeches&quot;,
+  &quot;total&quot;,
+  &quot;percent_of_d_speeches&quot;,
+  &quot;percent_of_r_speeches&quot;,
+  &quot;chi2&quot;,
+  &quot;pval&quot;
+)
+
+fixedWidthFile &lt;- &quot;words_fwf.txt&quot;
 fixedWidthPath &lt;- paste(readDirectory, fixedWidthFile, sep = &quot;&quot;)
 
 fwfEmpty &lt;- read_fwf(fixedWidthPath)
@@ -611,7 +611,7 @@ fwfPositions</code></pre>
 ## )
 ## 
 ## $problems
-## &lt;pointer: 0x7f9293711ea0&gt;
+## &lt;pointer: 0x7f8e82c2ab10&gt;
 ## 
 ## $class
 ## [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
@@ -700,6 +700,14 @@ xlsx</code></pre>
 ##  9 affor… health …          9          1    10             39.1             3.7 
 ## 10 middl… economy…          9          1    10             39.1             3.7 
 ## # … with 2,213 more rows, and 2 more variables: chi2 &lt;dbl&gt;, pval &lt;dbl&gt;</code></pre>
+<pre class="r"><code>all.equal(xlsx, anything)</code></pre>
+<pre><code>## [1] &quot;Attributes: &lt; Names: 1 string mismatch &gt;&quot;                                              
+## [2] &quot;Attributes: &lt; Length mismatch: comparison on first 2 components &gt;&quot;                     
+## [3] &quot;Attributes: &lt; Component \&quot;class\&quot;: Lengths (3, 4) differ (string compare on first 3) &gt;&quot;
+## [4] &quot;Attributes: &lt; Component \&quot;class\&quot;: 3 string mismatches &gt;&quot;                              
+## [5] &quot;Attributes: &lt; Component 2: Modes: numeric, externalptr &gt;&quot;                              
+## [6] &quot;Attributes: &lt; Component 2: Lengths: 2223, 1 &gt;&quot;                                         
+## [7] &quot;Attributes: &lt; Component 2: target is numeric, current is externalptr &gt;&quot;</code></pre>
 <pre class="r"><code>all.equal(xlsx, anything, check.attributes = FALSE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
@@ -728,7 +736,20 @@ googleSheet</code></pre>
 ##  9 &lt;chr [1]&gt; health …          9          1    10             39.1             3.7 
 ## 10 &lt;chr [1]&gt; economy…          9          1    10             39.1             3.7 
 ## # … with 2,213 more rows, and 2 more variables: chi2 &lt;dbl&gt;, pval &lt;dbl&gt;</code></pre>
-<pre class="r"><code>colTypes &lt;- &quot;ccddddddd&quot;
+<pre class="r"><code># We can set all column types with a single letter:
+# _ or -: skip the column
+# ?: guess
+# l: logical
+# i: integer
+# d: double
+# D: date
+# t: time of day
+# T: POSIXct datetime
+# c: character
+# L: list-column
+# C: list of raw cell data
+
+colTypes &lt;- &quot;ccddddddd&quot;
 
 googleSheet &lt;- read_sheet(gooleSheetUrl, col_types = colTypes)
 googleSheet</code></pre>

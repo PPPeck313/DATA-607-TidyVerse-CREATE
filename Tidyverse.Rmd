@@ -188,6 +188,7 @@ excelPath <- paste(readDirectory, excelFile, sep = "")
 xlsx <- read_excel(excelPath)
 xlsx
 
+all.equal(xlsx, anything)
 all.equal(xlsx, anything, check.attributes = FALSE)
 ```
 
@@ -205,6 +206,19 @@ gooleSheetUrl <- "https://docs.google.com/spreadsheets/d/1xwNqqsZeWfNo5PzDFogusR
 
 googleSheet <- read_sheet(gooleSheetUrl)
 googleSheet
+
+# We can set all column types with a single letter:
+# _ or -: skip the column
+# ?: guess
+# l: logical
+# i: integer
+# d: double
+# D: date
+# t: time of day
+# T: POSIXct datetime
+# c: character
+# L: list-column
+# C: list of raw cell data
 
 colTypes <- "ccddddddd"
 
